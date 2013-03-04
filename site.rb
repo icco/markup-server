@@ -9,5 +9,13 @@ get '/' do
 end
 
 post '/' do
-  ""
+  content = params["content"]
+  width = params["width"] || 500
+  height = params["height"] || 500
+
+  OEmbed::Providers.register_all
+
+  url = ""
+  res = OEmbed::Providers.get(url, {:maxwidth => width, :maxheight => height})
+  res.html
 end
