@@ -1,6 +1,4 @@
-enable  :sessions, :logging
-
-set :session_secret, ENV['SESSION_SECRET'] || 'This is a secret bro!'
+enable :logging
 
 set :root, File.dirname(__FILE__)
 
