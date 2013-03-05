@@ -13,7 +13,12 @@ post '/' do
 
   OEmbed::Providers.register_all
 
-  url = ""
-  res = OEmbed::Providers.get(url, {:maxwidth => width, :maxheight => height})
-  res.html
+  content.split.map do |str|
+    if str[0...4] == "http"
+      res = OEmbed::Providers.get(str, {:maxwidth => width, :maxheight => height})
+      res.html
+    else
+      str
+    end
+  end.join " "
 end
