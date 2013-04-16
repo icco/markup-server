@@ -15,8 +15,13 @@ post '/' do
 
   content.split.map do |str|
     if str[0...4] == "http"
-      res = OEmbed::Providers.get(str, {:maxwidth => width, :maxheight => height})
-      res.html
+      begin
+        ret = OEmbed::Providers.get(str, {:maxwidth => width, :maxheight => height}).html
+      rescue
+        ret = "<a href=\"#{str}\">#{str}</a>"
+      end
+
+      ret
     else
       str
     end
