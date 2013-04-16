@@ -16,14 +16,20 @@ post '/' do
   content.split.map do |str|
     if str[0...4] == "http"
       begin
-        ret = OEmbed::Providers.get(str, {:maxwidth => width, :maxheight => height}).html
+        OEmbed::Providers.get(str, {:maxwidth => width, :maxheight => height}).html
       rescue
-        ret = "<a href=\"#{str}\">#{str}</a>"
+        nonoembedurl(str)
       end
-
-      ret
     else
       str
     end
   end.join " "
+end
+
+def nonoembedurl(str)
+  if /\w*(png|gif|jpg)$/ =~ str
+    "<img src=\"#{str}\" />"
+  else
+    "<a href=\"#{str}\">#{str}</a>"
+  end
 end
